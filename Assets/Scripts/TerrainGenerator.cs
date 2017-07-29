@@ -14,15 +14,16 @@ public class TerrainGenerator : MonoBehaviour {
 
     public GameObject theMiner, theWindmill;
 
-    public float instantianScale = 50f;
+    public int instantAmount = 10;
+    public float instantScale = 50f;
     public float minerOffsetX = 5f;
     public float minerOffsetY = 5f;
 
+    public float sinWaveNumX = 5f;
+    public float sinWaveNumY = 5f;
+
     void Start()
     {
-        offsetX = Random.Range(0f, 99999f);
-        offsetY = Random.Range(0f, 99999f);
-
         Terrain terrain = GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
     }
@@ -52,10 +53,11 @@ public class TerrainGenerator : MonoBehaviour {
             for(int y = 0; y < height; y++)
             {
                 heights[x, y] = CalculateHeight(x, y);
-                if(x < 10 && y < 10)
+                if(x < instantAmount && y < instantAmount)
                 {
-                    Instantiate(theWindmill, new Vector3(x * instantianScale, depth, y * instantianScale), Quaternion.Euler(0f, 0f, 0f));
-                    Instantiate(theMiner, new Vector3(x * instantianScale + minerOffsetX, depth, y * instantianScale + minerOffsetY), Quaternion.Euler(0f, 0f, 0f));
+                    //Instantiate(theWindmill, new Vector3(x * instantScale, depth, y * instantScale), Quaternion.Euler(0f, 0f, 0f));
+                    //Instantiate(theMiner, new Vector3(x * instantScale + minerOffsetX, depth, y * instantScale + minerOffsetY), Quaternion.Euler(0f, 0f, 0f));
+                    //Instead, will instantiate entire scene of objects as a single prefab.
                 }
                 
             }
@@ -69,9 +71,9 @@ public class TerrainGenerator : MonoBehaviour {
         float xCoord = (float)x / width * scale + offsetX;
         float yCoord = (float)y / height * scale + offsetY;
 
-        return Mathf.PerlinNoise(xCoord, yCoord);
+        //return Mathf.PerlinNoise(xCoord, yCoord); use this for perlin noise
 
-        //return Mathf.Sin(4 * Mathf.PI * x) * Mathf.Sin(5 * Mathf.PI * y);
+        return Mathf.Sin(sinWaveNumX * Mathf.PI * xCoord) * Mathf.Sin(sinWaveNumY * Mathf.PI * yCoord);
     }
 
 }
