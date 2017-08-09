@@ -19,6 +19,8 @@ public class FirstPersonController : MonoBehaviour {
     float moveLeftRight;
     float moveUpDown;
 
+    Vector3 targetPosition; // for point to click
+
 
     void Start () {
         player = GetComponent<CharacterController>();
@@ -34,11 +36,9 @@ public class FirstPersonController : MonoBehaviour {
 
         movement = transform.rotation * movement;
         player.Move(movement * Time.deltaTime);
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(Mine());
-        }
+        
+        //StartCoroutine(Mine());
+        
 
 
 
