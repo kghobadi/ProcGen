@@ -21,6 +21,8 @@ public class FirstPersonController : MonoBehaviour {
 
     Vector3 targetPosition; // for point to click
 
+    public int rockCounter;
+
 
     void Start () {
         player = GetComponent<CharacterController>();
