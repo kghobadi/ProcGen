@@ -13,7 +13,7 @@ public class Mining : MonoBehaviour {
 
     void Update()
     {
-        if(rockHealth <= 0)
+        if(rockHealth < 0)
         {
             SpawnRockBits();
             Destroy(gameObject);

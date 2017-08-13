@@ -17,10 +17,13 @@ public class Interact : MonoBehaviour {
     public AudioClip rockPickUp;
 
     public GameObject interactSymbol;
-    public GameObject miningSymbol;
+    public GameObject pickAxeSymbol;
     public GameObject plantSymbol;
+    public GameObject miningSymbol;
+    public GameObject digSymbol;
 
-    public float withinDistance = 5f;
+    public float withinDistance = 10f;
+    public float withinDistanceActive = 5f;
 
     void Awake()
     {
@@ -28,8 +31,10 @@ public class Interact : MonoBehaviour {
         cammy = GameObject.FindGameObjectWithTag("MainCamera"); //searches for Camera
         soundBoard = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>(); //searches for AudioSource on Camera
         interactSymbol = GameObject.FindGameObjectWithTag("InteractSymbol");
-        miningSymbol = GameObject.FindGameObjectWithTag("MiningSymbol");
+        pickAxeSymbol = GameObject.FindGameObjectWithTag("PickAxeSymbol");
         plantSymbol = GameObject.FindGameObjectWithTag("PlantSymbol");
+        miningSymbol = GameObject.FindGameObjectWithTag("MiningSymbol");
+        digSymbol = GameObject.FindGameObjectWithTag("DigSymbol");
         _mining = GetComponent<Mining>();
     }
 
@@ -56,8 +61,10 @@ public class Interact : MonoBehaviour {
         }
 
         interactSymbol.GetComponent<SpriteRenderer>().enabled = false;
-        miningSymbol.GetComponent<SpriteRenderer>().enabled = false;
+        pickAxeSymbol.GetComponent<SpriteRenderer>().enabled = false;
         plantSymbol.GetComponent<SpriteRenderer>().enabled = false;
+        miningSymbol.GetComponent<SpriteRenderer>().enabled = false;
+        digSymbol.GetComponent<SpriteRenderer>().enabled = false;
 
     }
 
@@ -72,7 +79,7 @@ public class Interact : MonoBehaviour {
             switch (objectSelect)
             {
                 case 3:
-                    miningSymbol.GetComponent<SpriteRenderer>().enabled = true;
+                    pickAxeSymbol.GetComponent<SpriteRenderer>().enabled = true;
                     break;
 
                 case 2:
@@ -96,6 +103,8 @@ public class Interact : MonoBehaviour {
         interactSymbol.GetComponent<SpriteRenderer>().enabled = false;
         miningSymbol.GetComponent<SpriteRenderer>().enabled = false;
         plantSymbol.GetComponent<SpriteRenderer>().enabled = false;
+        pickAxeSymbol.GetComponent<SpriteRenderer>().enabled = false;
+        digSymbol.GetComponent<SpriteRenderer>().enabled = false;
         cammy.GetComponent<camMouseLook>().sensitivityX = 3f;
         cammy.GetComponent<camMouseLook>().sensitivityY = 3f;
 
@@ -103,7 +112,7 @@ public class Interact : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (Vector3.Distance(transform.position, _player.transform.position) <= withinDistance)
+        if (Vector3.Distance(transform.position, _player.transform.position) <= withinDistanceActive)
         {
             cammy.GetComponent<camMouseLook>().sensitivityX = 0.5f;
             cammy.GetComponent<camMouseLook>().sensitivityY = 0.5f;
@@ -111,10 +120,14 @@ public class Interact : MonoBehaviour {
             switch (objectSelect)
             {
                 case 3:
-                    miningSymbol.GetComponent<SpriteRenderer>().enabled = true;
-                    StartCoroutine(_player.GetComponent<FirstPersonController>().Mine());
-                    //Go into object Script, i.e. Mining, and tell object what happens -- rock loses health, rock breaks, spawns collectible rock bits
-                    _mining.rockHealth--;
+                    if(_player.GetComponent<FirstPersonController>().IAmMining == false)
+                    {
+                        pickAxeSymbol.GetComponent<SpriteRenderer>().enabled = false;
+                        miningSymbol.GetComponent<SpriteRenderer>().enabled = true;
+                        StartCoroutine(_player.GetComponent<FirstPersonController>().Mine());
+                        _mining.rockHealth--;
+                        //For some reason, the Mining wont stop on last hit
+                    }
                     break;
 
                 case 2:
@@ -125,7 +138,7 @@ public class Interact : MonoBehaviour {
                     break;
 
                 case 1:
-                    plantSymbol.GetComponent<SpriteRenderer>().enabled = true;
+                    digSymbol.GetComponent<SpriteRenderer>().enabled = true;
                     break;
 
             }

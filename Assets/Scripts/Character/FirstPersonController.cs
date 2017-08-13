@@ -22,6 +22,7 @@ public class FirstPersonController : MonoBehaviour {
     Vector3 targetPosition; // for point to click
 
     public int rockCounter;
+    public bool IAmMining = false;
 
 
     void Start () {
@@ -39,7 +40,6 @@ public class FirstPersonController : MonoBehaviour {
         movement = transform.rotation * movement;
         player.Move(movement * Time.deltaTime);
         
-        //StartCoroutine(Mine());
         
 
 
@@ -48,15 +48,20 @@ public class FirstPersonController : MonoBehaviour {
 
     public IEnumerator Mine()
     {
+        IAmMining = true;
         pickAxe.Play();
         miner.PlayOneShot(mining);
         
         yield return new WaitForSeconds(0.25f);
         rockBits.Play();
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.55f);
 
         pickAxe.Stop();
         rockBits.Stop();
+        IAmMining = false;
+        Debug.Log("MINING FINISHED!");
+        yield break;
+        //NEEd TO FIGURE OUT WHY THIS WONT STOP ON LAST HIT 
         
 
 
