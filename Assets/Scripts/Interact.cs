@@ -9,12 +9,15 @@ public class Interact : MonoBehaviour {
     private Mining _mining; // this will change based on what the object is: rock, fish, cook, plant, etc. this will be called _Object
     //create ArrayList of possible Scripts to be referenced
 
-    private int objectSelect = 3; //for switch decider
+    private int objectAmount = 3; //for switch decider
 
     public GameObject cammy;
 
     public AudioSource soundBoard;
-    public AudioClip rockPickUp;
+    public AudioClip activeInteractSound;
+
+    public GameObject canInteractSymbol;
+    public GameObject activeInteractSymbol;
 
     public GameObject interactSymbol;
     public GameObject pickAxeSymbol;
@@ -24,6 +27,8 @@ public class Interact : MonoBehaviour {
 
     public float withinDistance = 10f;
     public float withinDistanceActive = 5f;
+
+    public bool animationNeeded;
 
     void Awake()
     {
@@ -132,7 +137,7 @@ public class Interact : MonoBehaviour {
 
                 case 2:
                     interactSymbol.GetComponent<SpriteRenderer>().enabled = true;
-                    soundBoard.PlayOneShot(rockPickUp);
+                    soundBoard.PlayOneShot(activeInteractSound);
                     Destroy(gameObject);
                     _player.GetComponent<FirstPersonController>().rockCounter++;
                     break;

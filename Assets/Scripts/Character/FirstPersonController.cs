@@ -54,7 +54,7 @@ public class FirstPersonController : MonoBehaviour {
         
         yield return new WaitForSeconds(0.25f);
         rockBits.Play();
-        yield return new WaitForSeconds(0.55f);
+        yield return new WaitForSeconds(0.65f);
 
         pickAxe.Stop();
         rockBits.Stop();

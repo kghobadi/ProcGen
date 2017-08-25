@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Mining : MonoBehaviour {
 
+    public int caseIndex;
 
     public int rockHealth = 5;
 
