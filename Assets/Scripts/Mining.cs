@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mining : MonoBehaviour {
+public class Mining : Interactable {
 
     public int caseIndex;
 
@@ -10,7 +10,17 @@ public class Mining : MonoBehaviour {
 
     public GameObject rockBitPrefab;
     public int rockBitAmt = 5;
-        
+
+
+    public override void handleClickSuccess()
+    {
+        if (_player.GetComponent<FirstPersonController>().IAmMining == false)
+        {
+            base.handleClickSuccess();
+            _player.GetComponent<FirstPersonController>().PlayMine();
+            rockHealth--;
+        }
+    }
 
     void Update()
     {

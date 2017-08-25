@@ -46,6 +46,11 @@ public class FirstPersonController : MonoBehaviour {
 
     }
 
+    public void PlayMine()
+    {
+        StartCoroutine(Mine());
+    }
+
     public IEnumerator Mine()
     {
         IAmMining = true;

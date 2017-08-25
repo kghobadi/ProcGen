@@ -9,7 +9,7 @@ public class Interact : MonoBehaviour {
     private Mining _mining; // this will change based on what the object is: rock, fish, cook, plant, etc. this will be called _Object
     //create ArrayList of possible Scripts to be referenced
 
-    private int objectAmount = 3; //for switch decider
+    private int objectSelect = 3; //for switch decider
 
     public GameObject cammy;
 
